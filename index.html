@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Timer</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+      integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="types">
+        <button class="pomodoro">Pomodoro</button>
+        <button class="short">Short Break</button>
+        <button class="long">Long Break</button>
+      </div>
+      <div class="timer"><span> 25:00</span></div>
+      <div class="actions">
+        <button class="start">Start</button>
+        <button class="pause" style="display: none">Pause</button>
+        <button class="reset">
+          <i class="fas fa-redo-alt"></i>
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const startBtn = document.querySelector(".start");
+      const pauseBtn = document.querySelector(".pause");
+      const pomodoro = document.querySelector(".pomodoro");
+      const resetBtn = document.querySelector(".reset");
+      const short = document.querySelector(".short");
+      let starting_time = 25,
+        time = starting_time * 60;
+
+      const long = document.querySelector(".long");
+      pomodoro.addEventListener("click", () => {
+        document.querySelector(".timer").innerHTML = "25:00";
+        document.title = "25:00 - Time to focus!";
+        starting_time = 25;
+        time = starting_time * 60;
+        timer.style.fontSize = "120px";
+        timer.style.fontWeight = "bold";
+        document.body.style.backgroundColor = "rgb(186, 73, 73)";
+        document.querySelector(".container").style.backgroundColor =
+          "rgb(205, 105, 105)";
+        pomodoro.style.backgroundColor = "rgb(186, 73, 73)";
+      });
+
+      short.addEventListener("click", () => {
+        starting_time = 05;
+        time = starting_time * 60;
+        document.querySelector(".timer").innerHTML = "05:00";
+        document.title = "05:00 - Time for a break!";
+        timer.style.fontSize = "120px";
+        timer.style.fontWeight = "bold";
+        document.body.style.backgroundColor = "rgb(56, 133, 138)";
+        document.querySelector(".container").style.backgroundColor =
+          "rgba(255, 255, 255, 0.1)";
+        short.style.backgroundColor = "rgb(56, 133, 138)";
+      });
+      long.addEventListener("click", () => {
+        starting_time = 15;
+        time = starting_time * 60;
+        document.querySelector(".timer").innerHTML = "15:00";
+        document.title = "15:00 - Time for a break!";
+        timer.style.fontSize = "120px";
+        timer.style.fontWeight = "bold";
+        document.body.style.backgroundColor = "rgb(57, 112, 151)";
+        document.querySelector(".container").style.backgroundColor =
+          "rgba(255, 255, 255, 0.1)";
+        long.style.backgroundColor = "rgb(57, 112, 151)";
+      });
+
+      const timer = document.querySelector(".timer");
+      var interval, minutes, seconds;
+      const startTimer = () => {
+        minutes = Math.floor(time / 60);
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        let seconds = time % 60;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        timer.innerHTML = `${minutes}:${seconds}`;
+        time--;
+        if (time < 0) {
+          clearInterval(interval);
+          document.title = "Time's up!";
+          timer.style.fontSize = "50px";
+          timer.style.fontWeight = "normal";
+          timer.innerHTML = "Time's up!";
+        }
+        document.title = `${minutes}:${seconds} `;
+      };
+      const stopTimer = () => {
+        clearInterval(interval);
+        interval = null;
+      };
+
+      startBtn.addEventListener("click", () => {
+        interval = setInterval(startTimer, 1000);
+        startBtn.style.display = "none";
+        pauseBtn.style.display = "block";
+        timer.style.fontSize = "120px";
+        timer.style.fontWeight = "bold";
+      });
+      pauseBtn.addEventListener("click", () => {
+        stopTimer();
+        startBtn.style.display = "block";
+        pauseBtn.style.display = "none";
+      });
+      resetBtn.addEventListener("click", () => {
+        stopTimer();
+        time = starting_time * 60;
+        timer.innerHTML = `${starting_time}:00`;
+        startBtn.style.display = "inline-block";
+        pauseBtn.style.display = "none";
+      });
+    </script>
+  </body>
+</html>
